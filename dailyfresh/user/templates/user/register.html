@@ -1,0 +1,36 @@
+{%extends "user/base.html"%}
+
+	{%block title%}
+	<title>天天生鲜-注册</title>
+    {%endblock title%}
+
+	{%block extend-head%}
+	{% load static %}
+	<script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'user/js/register.js' %}"></script>
+    {%endblock extend-head%}
+
+	{% block body %}
+	<div class="register_con">
+		<div class="l_con fl">
+			<a class="reg_logo"><img src="{% static 'images/logo02.png' %}"></a>
+			<div class="reg_slogan">足不出户  ·  新鲜每一天</div>
+			<div class="reg_banner"></div>
+		</div>
+
+		<div class="r_con fr">
+			<div class="reg_title clearfix">
+				<h1>用户注册</h1>
+				<a href="#">登录</a>
+			</div>
+			<div class="reg_form clearfix">
+
+				{# 注册表单 #}
+				{% include 'user/register_form.html' %}
+
+			</div>
+
+		</div>
+
+	</div>
+	{%endblock body%}

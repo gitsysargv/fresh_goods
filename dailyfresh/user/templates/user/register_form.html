@@ -1,0 +1,117 @@
+<form action="" method="post">
+    {% csrf_token %}
+    <ul>
+        {% if form.non_field_errors %}
+            <p>{{ form.non_field_errors }}</p>
+        {% endif %}
+        <li>
+            <label for="user_name">用户名:</label>
+            <input type="text" name="username" id="user_name">
+            <span class="error_tip">提示信息</span>
+
+            {% for e in form.errors.username %}
+            <span >{{ e }}</span>
+            {% endfor %}
+        </li>
+        <li>
+            <label>密码:</label>
+            <input type="password" name="password" id="pwd">
+            <span class="error_tip">提示信息</span>
+
+            {% for e in form.errors.password %}
+            <span >{{ e }}</span>
+            {% endfor %}
+        </li>
+        <li>
+            <label>确认密码:</label>
+            <input type="password" name="cpwd" id="cpwd">
+            <span class="error_tip">提示信息</span>
+        </li>
+        <li>
+            <label>邮箱:</label>
+            <input type="text" name="email" id="email">
+            <span class="error_tip">提示信息</span>
+
+            {% for e in form.errors.email %}
+            <span >{{ e }}</span>
+            {% endfor %}
+        </li>
+
+        <li>
+            <label for="captcha">验证码:</label>
+            <input type="button" value="换一个" id="hyg">
+            <div id="d" style="position: absolute;left: 380px;top: 152px;">
+            <img id="img" src="{% url 'user:captcha' %}" alt="验证码">
+            </div>
+
+            {# 验证码的错误显示，因为是点击验证，所以错误直接写在了第一个 x坐标的字段 #}
+            {% for e in form.errors.x1 %}
+            <span >{{ e }}</span>
+            {% endfor %}
+        </li>
+
+        <li class="agreement">
+            <input type="checkbox" name="agree" id="allow" checked="checked">
+            <label>同意”天天生鲜用户使用协议“</label>
+            <span class="error_tip2">提示信息</span>
+
+            {% for e in form.errors.agree %}
+            <span >{{ e }}</span>
+            {% endfor %}
+        </li>
+        <input type="hidden" value="0" name="x1" id="x1">
+        <input type="hidden" value="0" name="y1" id="y1">
+
+        <input type="hidden" value="0" name="x2" id="x2">
+        <input type="hidden" value="0" name="y2" id="y2">
+
+        <input type="hidden" value="0" name="x3" id="x3">
+        <input type="hidden" value="0" name="y3" id="y3">
+        <li class="reg_sub">
+            <input type="submit" value="注 册">
+        </li>
+    </ul>
+</form>
+<script type="text/javascript">
+$(function () {
+    var count = 0;  //计数3次
+    $('#img').click(function(event){
+                count++;
+                if(count>3){
+                    return;
+                }
+                var $imag2 = $('<img>');  // 生成图标
+
+                var x=event.offsetX;//获取点击时鼠标相对图片坐标
+                var y=event.offsetY;
+
+                $imag2.css({left:x, top:y, position:'absolute'}).prop({src:"/static/user/images/1.png"});
+                $('#d').append($imag2);
+
+                if(count===1){
+                    $('#x1').val(x);
+                    $('#y1').val(y);
+                }
+                else if(count===2){
+                    $('#x2').val(x);
+                    $('#y2').val(y);
+                }
+                else if(count===3){
+                    $('#x3').val(x);
+                    $('#y3').val(y);
+                }
+
+            })
+
+            // 点击切换图片验证码 改变src的地址，即改变get参数
+            $('#hyg').click(function(){
+                var $src = $("#img").prop('src') + '?';
+                var $index = $src.indexOf('?')+1;
+                $src = $src.substring(0, $index);
+                $("#img").prop('src', $src+"date="+ new Date());
+                // 重置数据
+                count = 0;
+                $('#d img').not('#img').remove();
+            })
+});
+</script>

@@ -26,8 +26,13 @@ user_patterns = [
     url(r'^user_center_info/$', user_views.UserDetail.as_view(), name='user_center_info'),
     url(r'^user_center_site/$', user_views.edit_recipients_address, name='user_center_site'),
 ]
+goods_patterns = [
+
+]
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'user/', include(user_patterns, namespace='user')),
+    #  主页，即商品模块
+    url(r'^', include(goods_patterns, namespace='goods')),
 ]

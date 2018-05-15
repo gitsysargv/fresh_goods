@@ -38,6 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'user',
+    'tinymce',
+    'goods'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -131,3 +133,9 @@ LOGGING = {
 }
 # USE_ETAGS = True
 LOGIN_URL = 'user:login'
+#  配置富文本初始化
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': 'advanced',
+    'width': 600,
+    'height': 400,
+}

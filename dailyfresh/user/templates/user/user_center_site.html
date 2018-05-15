@@ -1,0 +1,54 @@
+{%extends "user/user_center_base.html"%}
+	{%block title%}
+	<title>天天生鲜-用户中心</title>
+	{%endblock title%}
+
+{%block body%}
+	<div class="main_con clearfix">
+		<div class="left_menu_con clearfix">
+			<h3>用户中心</h3>
+			<ul>
+				<li><a href="{% url 'user:user_center_info' %}">· 个人信息</a></li>
+				<li><a href="user_center_order.html">· 全部订单</a></li>
+				<li><a href="{% url 'user:user_center_site' %}" class="active">· 收货地址</a></li>
+			</ul>
+		</div>
+
+		<div class="right_content clearfix">
+				<h3 class="common_title2">收货地址</h3>
+				<div class="site_con">
+					<dl>
+						<dt>当前地址：</dt>
+						{% for recipient in user.recipientsaddress_set.all %}
+						<dd>{{ recipient.shipping_address }}  （{{ recipient.recipient }} 收） {{ recipient.mobile_number }}</dd>
+						{%endfor%}
+					</dl>					
+				</div>
+				<h3 class="common_title2">编辑地址</h3>
+				<div class="site_con">
+					{# 编辑收件人地址 #}
+					<form action="" method="post">
+						{% csrf_token %}
+						<div class="form_group">
+							<label>收件人：</label>
+							<input type="text" name="recipient">
+						</div>
+						<div class="form_group form_group2">
+							<label>详细地址：</label>
+							<textarea class="site_area" name="shipping_address"></textarea>
+						</div>
+						<div class="form_group">
+							<label>邮编：</label>
+							<input type="text" name="postcode">
+						</div>
+						<div class="form_group">
+							<label>手机：</label>
+							<input type="text" name="mobile_number">
+						</div>
+
+						<input type="submit"  value="提交" class="info_submit">
+					</form>
+				</div>
+		</div>
+	</div>
+	{%endblock%}

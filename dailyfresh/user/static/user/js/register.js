@@ -6,6 +6,7 @@ $(function(){
 	var error_email = false;
 	var error_check = false;
 
+	var error_reuse = false;  // 重名错误
 
 	$('#user_name').blur(function() {
 		check_user_name();
@@ -48,6 +49,16 @@ $(function(){
 		}
 		else
 		{
+			$.get('/user/repeat/', {'username': $('#user_name').val()}, function (data) {
+				if(data.is_repeat == 1){
+					error_reuse = true;
+					$('#user_name').next().html('用户名已存在').show();
+				}
+				else {
+					error_reuse = false;
+				}
+            });
+
 			$('#user_name').next().hide();
 			error_name = false;
 		}
@@ -55,9 +66,9 @@ $(function(){
 
 	function check_pwd(){
 		var len = $('#pwd').val().length;
-		if(len<8||len>20)
+		if(len<6||len>20)
 		{
-			$('#pwd').next().html('密码最少8位，最长20位')
+			$('#pwd').next().html('密码最少6位，最长20位')
 			$('#pwd').next().show();
 			error_password = true;
 		}
@@ -104,14 +115,14 @@ $(function(){
 
 	}
 
-
 	$('#reg_form').submit(function() {
 		check_user_name();
 		check_pwd();
 		check_cpwd();
 		check_email();
 
-		if(error_name == false && error_password == false && error_check_password == false && error_email == false && error_check == false)
+
+		if(error_reuse == false && error_name == false && error_password == false && error_check_password == false && error_email == false && error_check == false)
 		{
 			return true;
 		}

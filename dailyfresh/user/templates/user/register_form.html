@@ -1,4 +1,4 @@
-<form action="" method="post">
+<form action="" method="post" id="register">
     {% csrf_token %}
     <ul>
         {% if form.non_field_errors %}
@@ -9,9 +9,11 @@
             <input type="text" name="username" id="user_name">
             <span class="error_tip">提示信息</span>
 
+            {% if form.errors %}
             {% for e in form.errors.username %}
             <span >{{ e }}</span>
             {% endfor %}
+            {% endif %}
         </li>
         <li>
             <label>密码:</label>
@@ -43,6 +45,7 @@
             <div id="d" style="position: absolute;left: 380px;top: 152px;">
             <img id="img" src="{% url 'user:captcha' %}" alt="验证码">
             </div>
+            <span class="error_tip">验证码错误提示信息</span>
 
             {# 验证码的错误显示，因为是点击验证，所以错误直接写在了第一个 x坐标的字段 #}
             {% for e in form.errors.x1 %}
@@ -72,46 +75,6 @@
         </li>
     </ul>
 </form>
-<script type="text/javascript">
-$(function () {
-    var count = 0;  //计数3次
-    $('#img').click(function(event){
-                count++;
-                if(count>3){
-                    return;
-                }
-                var $imag2 = $('<img>');  // 生成图标
+<script type="text/javascript" src="/static/user/js/click_captcha.js">
 
-                var x=event.offsetX;//获取点击时鼠标相对图片坐标
-                var y=event.offsetY;
-
-                $imag2.css({left:x, top:y, position:'absolute'}).prop({src:"/static/user/images/1.png"});
-                $('#d').append($imag2);
-
-                if(count===1){
-                    $('#x1').val(x);
-                    $('#y1').val(y);
-                }
-                else if(count===2){
-                    $('#x2').val(x);
-                    $('#y2').val(y);
-                }
-                else if(count===3){
-                    $('#x3').val(x);
-                    $('#y3').val(y);
-                }
-
-            })
-
-            // 点击切换图片验证码 改变src的地址，即改变get参数
-            $('#hyg').click(function(){
-                var $src = $("#img").prop('src') + '?';
-                var $index = $src.indexOf('?')+1;
-                $src = $src.substring(0, $index);
-                $("#img").prop('src', $src+"date="+ new Date());
-                // 重置数据
-                count = 0;
-                $('#d img').not('#img').remove();
-            })
-});
 </script>

@@ -18,12 +18,16 @@ from django.contrib import admin
 from user import views as user_views
 
 user_patterns = [
-    url(r'^register/$', user_views.UserCreate.as_view()),
+    url(r'^register/$', user_views.UserCreate.as_view(), name='register'),
+    url(r'^repeat/$', user_views.username_is_repeat),
     url(r'^captcha/$', user_views.create_captcha_code, name='captcha'),
-    url(r'^user_center_info/$', user_views.UserDetail.as_view(), name='user_center_info')
+    url(r'^login/$', user_views.login, name='login'),
+    url(r'^logout/$', user_views.logout_view, name='logout'),
+    url(r'^user_center_info/$', user_views.UserDetail.as_view(), name='user_center_info'),
+    url(r'^user_center_site/$', user_views.edit_recipients_address, name='user_center_site'),
 ]
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'user/', include(user_patterns, namespace='user'))
+    url(r'user/', include(user_patterns, namespace='user')),
 ]

@@ -107,5 +107,27 @@ USE_TZ = True
 AUTH_USER_MODEL = 'user.User'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    '/static'
+    # os.path.join(BASE_DIR, 'static'),
+    'static',
 ]
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'user/captcha.log'),
+            'encoding': 'utf-8',
+        },
+    },
+    'loggers': {
+        'captcha': {
+            'handlers': ['file'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
+    },
+}
+# USE_ETAGS = True
+LOGIN_URL = 'user:login'

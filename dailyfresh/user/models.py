@@ -19,3 +19,14 @@ class User(AbstractUser):
 
     class Meta(AbstractUser.Meta):
         swappable = 'AUTH_USER_MODEL'
+
+
+class RecipientsAddress(models.Model):
+    user = models.ForeignKey(User)
+    recipient = models.CharField('收件人', max_length=20)
+    shipping_address = models.TextField('详细地址')
+    postcode = models.CharField('邮编', max_length=6, blank=True, editable=False)
+    mobile_number = models.CharField('手机', max_length=11,
+                                     validators=[RegexValidator(
+                                         r'^1[34578]\d{9}$', '手机格式不正确', 'invalid'
+                                     )])

@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from user import views as user_views
+from goods import views as goods_views
 
 user_patterns = [
     url(r'^register/$', user_views.UserCreate.as_view(), name='register'),
@@ -27,7 +28,7 @@ user_patterns = [
     url(r'^user_center_site/$', user_views.edit_recipients_address, name='user_center_site'),
 ]
 goods_patterns = [
-
+    url(r'^$', goods_views.home_page, name='index'),
 ]
 
 urlpatterns = [

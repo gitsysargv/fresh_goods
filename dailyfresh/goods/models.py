@@ -2,11 +2,18 @@ from django.db import models
 from tinymce.models import HTMLField
 
 
-class Type(models.Model):
+class GoodsType(models.Model):
     title = models.CharField('商品类型', max_length=20)
 
     def __str__(self):
         return self.title
+
+    #  返回点击量最多的那几个商品
+    def get_click_list(self, end):
+        return self.goods_set.order_by('-click')[0: end]
+
+    def get_new_list(self, end):
+        return self.goods_set.order_by('-id')[0: end]
 
 
 class Goods(models.Model):
@@ -19,7 +26,7 @@ class Goods(models.Model):
     intro = models.CharField('简介', max_length=200)
     repertory = models.IntegerField('库存')
     content = HTMLField('描述')
-    type = models.ForeignKey(Type)
+    type = models.ForeignKey(GoodsType)
 
     # create_time = models.DateTimeField('创建时间', auto_now_add=True)
 

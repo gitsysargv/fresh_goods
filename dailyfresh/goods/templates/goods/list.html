@@ -26,13 +26,27 @@
 			</ul>
 
 			<div class="pagenation">
-				<a href="#"><上一页</a>
-				<a href="#" class="active">1</a>
-				<a href="#">2</a>
-				<a href="#">3</a>
-				<a href="#">4</a>
-				<a href="#">5</a>
-				<a href="#">下一页></a>
+				{% if page.has_previous %}
+				<a href="{% url 'goods:list' tid=goods_type.id sort=sort page_index=page.number|add:-1 %}"><上一页</a>
+				{% else %}
+				<a >上一页</a>
+				{% endif %}
+
+				{% for page_num in page_range %}
+					{% if page.number == page_num %}
+					<a href="{{ page.number }}" class="active">{{page_num}}</a>
+					{% else %}
+					<a href="{% url 'goods:list' tid=goods_type.id sort=sort page_index=page_num %}">{{page_num}}</a>
+					{% endif %}
+				{% endfor %}
+
+
+				{# 下一页设计 #}
+				{% if page.has_next %}
+				<a href="{% url 'goods:list' tid=goods_type.id sort=sort page_index=page.number|add:1 %}">下一页></a>
+				{% else %}
+				<a >下一页</a>
+				{% endif %}
 			</div>
 		</div>
 	{%endblock%}

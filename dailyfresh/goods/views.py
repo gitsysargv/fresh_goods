@@ -65,21 +65,22 @@ def home_page(request):
     return render(request, template_name, context)
 
 
-def goods_list(request, id, sort, page_index):
+def goods_list(request, tid, sort, page_index):
     '''根据商品类型返回商品列表
-    id: 商品类型ID
+    tid: 商品类型ID
     sort: 排序方式  2价格， 3 人气, 1 和其他情况为默认
     page_index: 页码 
     context: news 商品最新的两个
             page 分页
             '''
     # print(sort)
-    goods_type = get_object_or_404(GoodsType, pk=id)
-    if sort == '3' or sort is None:
+    goods_type = get_object_or_404(GoodsType, pk=tid)
+    if sort == '3':
         sort_list = goods_type.goods_set.order_by('-click')
     elif sort == '2':
         sort_list = goods_type.goods_set.order_by('price')
     else:
+        sort = '1'
         sort_list = goods_type.goods_set.order_by('-id')
 
     if page_index is None or page_index == '1':
@@ -93,8 +94,35 @@ def goods_list(request, id, sort, page_index):
     except EmptyPage:
         #  如果页面不在范围内，返回最后一页paginator.num_pages
         content = paginator.page(paginator.num_pages)
+    # print(page_index)
+    # print(content.number)
+    # print(paginator.num_pages)
+    #  构造页面范围
+    if paginator.num_pages >= 5:  # 判断总页数是否大于5
+
+        if content.number <= 3:  # 当前页面是否小于3
+            page_range = [1, 2, 3, 4, 5]
+
+        elif 3 <= content.number <= paginator.num_pages - 2:
+            page_range = [content.number - 2,
+                          content.number - 1,
+                          content.number,
+                          content.number + 1,
+                          content.number + 2]
+        else:
+            page_range = [paginator.num_pages - 4,
+                          paginator.num_pages - 3,
+                          paginator.num_pages - 2,
+                          paginator.num_pages - 1,
+                          paginator.num_pages]
+
+    else:  # 如果最大页面小于5，则分页到最大页为止
+        page_range = range(1, paginator.num_pages + 1)
     context = {'page': content,
-               'news': goods_type.goods_set.order_by('-id')[0:2]}
+               'news': goods_type.goods_set.order_by('-id')[0:2],
+               'goods_type': goods_type,
+               'sort': sort,
+               'page_range': page_range}
     return render(request, 'goods/list.html', context)
 
 

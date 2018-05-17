@@ -1,4 +1,4 @@
-{%extends 'user/base.html'%}
+{%extends 'base.html'%}
 	{%block title%}
 	<title>天天生鲜-登录</title>
     {%endblock title%}
@@ -6,7 +6,7 @@
 	{%block body%}
 	<div class="login_top clearfix">
 		{%load static%}
-		<a href="index.html" class="login_logo"><img src="{% static 'images/logo02.png' %}"></a>
+		<a href="{% url 'goods:index' %}" class="login_logo"><img src="{% static 'images/logo02.png' %}"></a>
 	</div>
 
 	<div class="login_form_bg">

@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.core.paginator import Paginator
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
 
-from .models import GoodsType
+from .models import GoodsType, Goods
 
 
 def home_page(request):
@@ -62,3 +63,36 @@ def home_page(request):
         'quick_frozen_food_new': quick_frozen_food_new,
     }
     return render(request, template_name, context)
+
+
+def goods_list(request, id, sort, page):
+    '''根据商品类型返回商品列表
+    id: 商品类型ID
+    sort: 排序方式  2价格， 3 人气, 1 和其他情况为默认
+    page_index: 页码 
+    context: news 商品最新的两个
+            page 分页
+            '''
+    # print(sort)
+    goods_type = get_object_or_404(GoodsType, pk=id)
+    if sort == '3' or sort is None:
+        sort_list = goods_type.goods_set.order_by('-click')
+    elif sort == '2':
+        sort_list = goods_type.goods_set.order_by('price')
+    else:
+        sort_list = goods_type.goods_set.order_by('-id')
+
+    if page is None or page == '1':
+        page_index = 1
+    else:
+        page_index = int(page)
+    paginator = Paginator(sort_list, 15)
+    if page_index not in paginator.page_range:
+        page_index = 1
+    context = {'page': paginator.page(page_index),
+               'news': goods_type.goods_set.order_by('-id')[0:2]}
+    return render(request, 'goods/list.html', context)
+
+
+def goods_detail(request):
+    return render(request, 'goods/detail.html')

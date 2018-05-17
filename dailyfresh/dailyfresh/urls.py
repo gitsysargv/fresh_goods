@@ -29,6 +29,8 @@ user_patterns = [
 ]
 goods_patterns = [
     url(r'^$', goods_views.home_page, name='index'),
+    url(r'^list-(?P<id>\d+)(?:-(?P<sort>\d+))?/(?:page(?P<page>\d+)/)?$', goods_views.goods_list),
+    url(r'^detail/$', goods_views.goods_detail),
 ]
 
 urlpatterns = [

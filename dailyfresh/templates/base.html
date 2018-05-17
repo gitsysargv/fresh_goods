@@ -15,14 +15,25 @@
 </head>
 
 <body>
+{%block header%}
+    {%block header_con%}
+    {# 用户中心头部 #}
+    {%endblock header_con%}
 
-{%block header_con%}
-{# 用户中心头部 #}
-{%endblock header_con%}
+    {%block search_bar%}
+    {# 用户中心搜索条 #}
+    {%endblock search_bar%}
 
-{%block search_bar%}
-{# 用户中心搜索条 #}
-{%endblock search_bar%}
+    {% block nav %}
+        {%block navbar_con%}
+        {# 列表页导航 #}
+        {%endblock navbar_con%}
+
+        {%block breadcrumb%}
+        {# 列表页分类栏-即面包屑 #}
+        {%endblock breadcrumb%}
+    {%endblock nav%}
+{%endblock header%}
 
 {%block body%}
 {%endblock body%}

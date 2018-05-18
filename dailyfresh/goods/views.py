@@ -103,21 +103,13 @@ def goods_list(request, tid, sort, page_index):
         if content.number <= 3:  # 当前页面是否小于3
             page_range = [1, 2, 3, 4, 5]
 
-        elif 3 <= content.number <= paginator.num_pages - 2:
-            page_range = [content.number - 2,
-                          content.number - 1,
-                          content.number,
-                          content.number + 1,
-                          content.number + 2]
+        elif 3 < content.number < paginator.num_pages - 2:
+            page_range = range(content.number - 2, content.number + 2+1)
         else:
-            page_range = [paginator.num_pages - 4,
-                          paginator.num_pages - 3,
-                          paginator.num_pages - 2,
-                          paginator.num_pages - 1,
-                          paginator.num_pages]
+            page_range = range(paginator.num_pages - 4, paginator.num_pages+1)
 
     else:  # 如果最大页面小于5，则分页到最大页为止
-        page_range = range(1, paginator.num_pages + 1)
+        page_range = paginator.page_range
     context = {'page': content,
                'news': goods_type.goods_set.order_by('-id')[0:2],
                'goods_type': goods_type,

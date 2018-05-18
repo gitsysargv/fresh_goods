@@ -64,12 +64,12 @@
 
 				{% for goods in fruit_click %}
 				{# 详情页连接 #}
-				<a href="#">{{ goods.title }}</a>
+				<a href="">{{ goods.title }}</a>
 				{%endfor%}
 
 			</div>
 			{# 商品列表连接 #}
-			<a href="#" class="goods_more fr" id="fruit_more">查看更多 ></a>
+			<a href="/list-{{ fruit.id }}-1/" class="goods_more fr" id="fruit_more">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
@@ -95,7 +95,7 @@
 				<a href="#">{{ goods.title }}</a>
 				{%endfor%}
 			</div>
-			<a href="#" class="goods_more fr">查看更多 ></a>
+			<a href="/list-{{ seafood.id }}-1/" class="goods_more fr">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
@@ -121,7 +121,7 @@
 				<a href="#">{{ goods.title }}</a>
 				{% endfor %}
 			</div>
-			<a href="#" class="goods_more fr">查看更多 ></a>
+			<a href="/list-{{ meat.id }}-1/" class="goods_more fr">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
@@ -149,7 +149,7 @@
 				<a href="#">{{ goods.title }}</a>
 				{% endfor %}
 			</div>
-			<a href="#" class="goods_more fr">查看更多 ></a>
+			<a href="/list-{{ egg.id }}-1/" class="goods_more fr">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
@@ -176,7 +176,7 @@
 				<a href="#">{{ goods.title }}</a>
 				{% endfor %}
 			</div>
-			<a href="#" class="goods_more fr">查看更多 ></a>
+			<a href="/list-{{ vegetable.id }}-1/" class="goods_more fr">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
@@ -203,7 +203,7 @@
 				<a href="#">{{ goods.title }}</a>
 				{% endfor %}
 			</div>
-			<a href="#" class="goods_more fr">查看更多 ></a>
+			<a href="/list-{{ quick_frozen_food.id }}-1/" class="goods_more fr">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">

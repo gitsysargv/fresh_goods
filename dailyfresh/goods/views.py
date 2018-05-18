@@ -86,7 +86,7 @@ def goods_list(request, tid, sort, page_index):
     if page_index is None or page_index == '1':
         page_index = 1
 
-    paginator = Paginator(sort_list, 15)
+    paginator = Paginator(sort_list, 2)
     try:
         content = paginator.page(page_index)
     except PageNotAnInteger:
@@ -97,24 +97,30 @@ def goods_list(request, tid, sort, page_index):
     # print(page_index)
     # print(content.number)
     # print(paginator.num_pages)
+    #  根据当前页码设计首页，尾页
+    has_head = has_foot = True
     #  构造页面范围
     if paginator.num_pages >= 5:  # 判断总页数是否大于5
 
         if content.number <= 3:  # 当前页面是否小于3
             page_range = [1, 2, 3, 4, 5]
-
+            has_head = False
         elif 3 < content.number < paginator.num_pages - 2:
             page_range = range(content.number - 2, content.number + 2+1)
         else:
             page_range = range(paginator.num_pages - 4, paginator.num_pages+1)
-
+            has_foot = False
     else:  # 如果最大页面小于5，则分页到最大页为止
         page_range = paginator.page_range
+        has_head = False
+
     context = {'page': content,
                'news': goods_type.goods_set.order_by('-id')[0:2],
                'goods_type': goods_type,
                'sort': sort,
-               'page_range': page_range}
+               'page_range': page_range,
+               'has_head': has_head,
+               'has_foot': has_foot}
     return render(request, 'goods/list.html', context)
 
 

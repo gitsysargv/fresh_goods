@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.db import models
 from tinymce.models import HTMLField
 
@@ -29,6 +30,9 @@ class Goods(models.Model):
     type = models.ForeignKey(GoodsType)
 
     # create_time = models.DateTimeField('创建时间', auto_now_add=True)
+
+    def get_absolute_url(self):
+        return reverse('goods:detail', args=(str(self.id),))
 
     def __str__(self):
         return self.title

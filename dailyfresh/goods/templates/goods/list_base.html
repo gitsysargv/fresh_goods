@@ -96,8 +96,8 @@
 				<ul>
 					{% for goods in news %}
 					<li>
-						<a href="#"><img src="/static/{{ goods.pic }}"></a>
-						<h4><a href="#">{{ goods.title }}</a></h4>
+						<a href="{{ goods.get_absolute_url }}"><img src="/static/{{ goods.pic }}"></a>
+						<h4><a href="{{ goods.get_absolute_url }}">{{ goods.title }}</a></h4>
 						<div class="prize">￥{{ goods.price }}</div>
 					</li>
 					{%endfor%}

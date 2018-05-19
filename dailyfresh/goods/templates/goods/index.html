@@ -64,7 +64,7 @@
 
 				{% for goods in fruit_click %}
 				{# 详情页连接 #}
-				<a href="">{{ goods.title }}</a>
+				<a href="{{ goods.get_absolute_url }}">{{ goods.title }}</a>
 				{%endfor%}
 
 			</div>
@@ -77,8 +77,8 @@
 			<ul class="goods_list fl">
 				{% for goods in fruit_new %}
 				<li>
-					<h4><a href="#">{{ goods.title }}</a></h4>
-					<a href="#"><img src="/static/{{ goods.pic }}"></a>
+					<h4><a href="{{ goods.get_absolute_url }}">{{ goods.title }}</a></h4>
+					<a href="{{ goods.get_absolute_url }}"><img src="/static/{{ goods.pic }}"></a>
 					<div class="prize">¥ {{ goods.price }}</div>
 				</li>
 				{%endfor%}
@@ -92,7 +92,7 @@
 			<div class="subtitle fl">
 				<span>|</span>
 				{% for goods in seafood_click %}
-				<a href="#">{{ goods.title }}</a>
+				<a href="{{ goods.get_absolute_url }}">{{ goods.title }}</a>
 				{%endfor%}
 			</div>
 			<a href="/list-{{ seafood.id }}-1/" class="goods_more fr">查看更多 ></a>
@@ -103,8 +103,8 @@
 			<ul class="goods_list fl">
 				{% for goods in seafood_new %}
 				<li>
-					<h4><a href="#">{{ goods.title }}</a></h4>
-					<a href="#"><img src="/static/{{ goods.pic }}"></a>
+					<h4><a href="{{ goods.get_absolute_url }}">{{ goods.title }}</a></h4>
+					<a href="{{ goods.get_absolute_url }}"><img src="/static/{{ goods.pic }}"></a>
 					<div class="prize">¥ {{ goods.price }}</div>
 				</li>
 				{%endfor%}
@@ -118,7 +118,7 @@
 			<div class="subtitle fl">
 				<span>|</span>
 				{% for goods in meat_click %}
-				<a href="#">{{ goods.title }}</a>
+				<a href="{{ goods.get_absolute_url }}">{{ goods.title }}</a>
 				{% endfor %}
 			</div>
 			<a href="/list-{{ meat.id }}-1/" class="goods_more fr">查看更多 ></a>
@@ -130,8 +130,8 @@
 
 				{% for goods in meat_new %}
 				<li>
-					<h4><a href="#">{{ goods.title }}</a></h4>
-					<a href="#"><img src="/static/{{ goods.pic }}"></a>
+					<h4><a href="{{ goods.get_absolute_url }}">{{ goods.title }}</a></h4>
+					<a href="{{ goods.get_absolute_url }}"><img src="/static/{{ goods.pic }}"></a>
 					<div class="prize">¥ {{ goods.price }}</div>
 				</li>
 				{%endfor%}
@@ -146,7 +146,7 @@
 			<div class="subtitle fl">
 				<span>|</span>
 				{% for goods in egg_click %}
-				<a href="#">{{ goods.title }}</a>
+				<a href="{{ goods.get_absolute_url }}">{{ goods.title }}</a>
 				{% endfor %}
 			</div>
 			<a href="/list-{{ egg.id }}-1/" class="goods_more fr">查看更多 ></a>
@@ -157,8 +157,8 @@
 			<ul class="goods_list fl">
 				{% for goods in egg_new %}
 				<li>
-					<h4><a href="#">{{ goods.title }}</a></h4>
-					<a href="#"><img src="/static/{{ goods.pic }}"></a>
+					<h4><a href="{{ goods.get_absolute_url }}">{{ goods.title }}</a></h4>
+					<a href="{{ goods.get_absolute_url }}"><img src="/static/{{ goods.pic }}"></a>
 					<div class="prize">¥ {{ goods.price }}</div>
 				</li>
 				{%endfor%}
@@ -173,7 +173,7 @@
 			<div class="subtitle fl">
 				<span>|</span>
 				{% for goods in vegetable_click %}
-				<a href="#">{{ goods.title }}</a>
+				<a href="{{ goods.get_absolute_url }}">{{ goods.title }}</a>
 				{% endfor %}
 			</div>
 			<a href="/list-{{ vegetable.id }}-1/" class="goods_more fr">查看更多 ></a>
@@ -184,8 +184,8 @@
 			<ul class="goods_list fl">
 				{% for goods in vegetable_new %}
 				<li>
-					<h4><a href="#">{{ goods.title }}</a></h4>
-					<a href="#"><img src="/static/{{ goods.pic }}"></a>
+					<h4><a href="{{ goods.get_absolute_url }}">{{ goods.title }}</a></h4>
+					<a href="{{ goods.get_absolute_url }}"><img src="/static/{{ goods.pic }}"></a>
 					<div class="prize">¥ {{ goods.price }}</div>
 				</li>
 				{%endfor%}
@@ -200,7 +200,7 @@
 			<div class="subtitle fl">
 				<span>|</span>
 				{% for goods in quick_frozen_food_click %}
-				<a href="#">{{ goods.title }}</a>
+				<a href="{{ goods.get_absolute_url }}">{{ goods.title }}</a>
 				{% endfor %}
 			</div>
 			<a href="/list-{{ quick_frozen_food.id }}-1/" class="goods_more fr">查看更多 ></a>
@@ -211,8 +211,8 @@
 			<ul class="goods_list fl">
 				{% for goods in quick_frozen_food_new %}
 				<li>
-					<h4><a href="#">{{ goods.title }}</a></h4>
-					<a href="#"><img src="/static/{{ goods.pic }}"></a>
+					<h4><a href="{{ goods.get_absolute_url }}">{{ goods.title }}</a></h4>
+					<a href="{{ goods.get_absolute_url }}"><img src="/static/{{ goods.pic }}"></a>
 					<div class="prize">¥ {{ goods.price }}</div>
 				</li>
 				{%endfor%}

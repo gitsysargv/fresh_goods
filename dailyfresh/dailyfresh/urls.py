@@ -30,7 +30,7 @@ user_patterns = [
 goods_patterns = [
     url(r'^$', goods_views.home_page, name='index'),
     url(r'^list-(?P<tid>\d+)(?:-(?P<sort>\d+))?/(?:page(?P<page_index>\d+)/)?$', goods_views.goods_list, name='list'),
-    url(r'^detail/$', goods_views.goods_detail),
+    url(r'^detail/(\d+)/$', goods_views.goods_detail, name='detail'),
 ]
 
 urlpatterns = [

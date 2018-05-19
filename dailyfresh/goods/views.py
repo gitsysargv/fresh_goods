@@ -73,7 +73,7 @@ def goods_list(request, tid, sort, page_index):
     context: news 商品最新的两个
             page 分页
             '''
-    # print(sort)
+    # print(sort)  捕获不到时sort 为None
     goods_type = get_object_or_404(GoodsType, pk=tid)
     if sort == '3':
         sort_list = goods_type.goods_set.order_by('-click')
@@ -124,5 +124,7 @@ def goods_list(request, tid, sort, page_index):
     return render(request, 'goods/list.html', context)
 
 
-def goods_detail(request):
-    return render(request, 'goods/detail.html')
+def goods_detail(request, gid):
+    goods = get_object_or_404(Goods, pk=gid)
+    news = goods.type.goods_set.order_by('-id')[0:2]
+    return render(request, 'goods/detail.html', locals())

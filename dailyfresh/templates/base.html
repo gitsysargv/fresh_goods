@@ -16,13 +16,71 @@
 
 <body>
 {%block header%}
-    {%block header_con%}
     {# 用户中心头部 #}
+    {%block header_con%}
+    <div class="header_con">
+        <div class="header">
+            <div class="welcome fl">欢迎来到天天生鲜!</div>
+            <div class="fr">
+                {% if user.is_authenticated %}
+                <div class="login_btn fl">
+                    欢迎您：<em>{{ user.username }}</em>
+                    {# 退出链接，保存本地路径到next参数 #}
+                    | <a href="{% url 'user:logout' %}?next={{ request.path }}">退出</a>
+                </div>
+                {% else %}
+                <div class="login_btn fl">
+                    <a href="{% url 'user:login' %}">登录</a>
+                    <span>|</span>
+                    <a href="{% url 'user:register' %}">注册</a>
+                </div>
+                {% endif %}
+                <div class="user_link fl">
+                    <span>|</span>
+                    <a href="{% url 'user:user_center_info' %}">用户中心</a>
+                    <span>|</span>
+                    <a href="cart.html">我的购物车</a>
+                    <span>|</span>
+                    <a href="user_center_order.html">我的订单</a>
+                </div>
+            </div>
+        </div>
+    </div>
     {%endblock header_con%}
 
-    {%block search_bar%}
     {# 用户中心搜索条 #}
+    {%block search_bar%}
+    {% load static %}
+    <div class="search_bar clearfix">
+        <a href="{% url 'goods:index' %}" class="logo fl"><img src="{% static 'images/logo.png' %}"></a>
+        <div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
+        <div class="search_con fr">
+
+            <form action="/search/" method="get" target="_blank">
+            <input type="text" class="input_text fl" name="q" placeholder="搜索商品">
+            <input type="submit" class="input_btn fr"  value="搜索">
+            </form>
+
+        </div>
+    </div>
     {%endblock search_bar%}
+
+    {%block search_bar_with_cart%}
+	{# 用户中心搜索条(包含购物车div标签) #}
+	<div class="search_bar clearfix">
+			<a href="{% url 'goods:index' %}" class="logo fl"><img src="/static/images/logo.png"></a>
+			<div class="search_con fl">
+                <form action="/search/" method="get" target="_blank">
+                    <input type="text" class="input_text fl" name="q" placeholder="搜索商品">
+                    <input type="submit" class="input_btn fr" value="搜索">
+                </form>
+			</div>
+			<div class="guest_cart fr">
+				<a href="#" class="cart_name fl">我的购物车</a>
+				<div class="goods_count fl" id="show_count">1</div>
+			</div>
+		</div>
+	{%endblock search_bar_with_cart%}
 
     {% block nav %}
         {%block navbar_con%}
@@ -33,6 +91,7 @@
         {# 列表页分类栏-即面包屑 #}
         {%endblock breadcrumb%}
     {%endblock nav%}
+
 {%endblock header%}
 
 {%block body%}

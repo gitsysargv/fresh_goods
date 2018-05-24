@@ -39,7 +39,7 @@
 
 				{% for page_num in page_range %}
 					{% if page.number == page_num %}
-					<a href="{{ page.number }}" class="active">{{page_num}}</a>
+					<a href="#" class="active">{{page_num}}</a>
 					{% else %}
 					<a href="{% url 'goods:list' tid=goods_type.id sort=sort page_index=page_num %}">{{page_num}}</a>
 					{% endif %}

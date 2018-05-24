@@ -113,6 +113,7 @@ def goods_list(request, tid, sort, page_index):
     else:  # 如果最大页面小于5，则分页到最大页为止
         page_range = paginator.page_range
         has_head = False
+        has_foot = False
 
     context = {'page': content,
                'news': goods_type.goods_set.order_by('-id')[0:2],

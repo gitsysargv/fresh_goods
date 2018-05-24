@@ -1,0 +1,64 @@
+{%extends 'goods/list_base.html'%}
+{%block title%}<title>检索结果</title>{%endblock title%}
+
+{%block breadcrumb%}
+{# 不需要面包屑栏 #}
+{%endblock breadcrumb%}
+
+{%block body%}
+<div class="main_wrap clearfix">
+    <!--<div class="r_wrap fr clearfix">-->
+    <ul class="goods_type_list clearfix">
+        {% for i in page %}
+        <li>
+            <a href="{{ i.object.get_absolute_url }}"><img src="/static/{{ i.object.pic }}"></a>
+            <h4><a href="{{ i.object.get_absolute_url }}">{{ i.object.title }}</a></h4>
+            <div class="operate">
+                <span class="prize">￥{{ i.object.price }}</span>
+                <span class="unit">{{ i.object.unit }}</span>
+                <a href="#" class="add_goods" title="加入购物车"></a>
+            </div>
+        </li>
+        {%empty%}
+        <li>啥也没找到</li>
+        {%endfor%}
+    </ul>
+
+    <div class="pagenation">
+	        {% load paginator_extras %}
+    {% with p_dict=page|page_dict %}
+
+        {% if p_dict.has_head %}
+        <a href="?q={{query}}&amp;page=1">首页</a>
+        {%else%}
+        <a >首页</a>
+        {%endif%}
+
+        {% if page.has_previous %}
+        <a href="?q={{query}}&amp;page={{ page.number|add:-1 }}"><上一页</a>
+        {% else %}
+        <a >上一页</a>
+        {% endif %}
+        {%for page_num in p_dict.range%}
+            {% if page.number == page_num %}
+					<a href="#" class="active">{{page_num}}</a>
+					{% else %}
+					<a href="?q={{query}}&amp;page={{ page_num }}">{{page_num}}</a>
+            {% endif %}
+        {%endfor%}
+        {% if page.has_next %}
+        <a href="?q={{query}}&amp;page={{ page.number|add:1 }}"><下一页</a>
+        {% else %}
+        <a >下一页</a>
+        {% endif %}
+
+        {% if p_dict.has_foot %}
+        <a href="?q={{query}}&amp;page={{paginator.num_pages}}">尾页</a>
+        {%else%}
+        <a >尾页</a>
+        {%endif%}
+    {% endwith %}
+			</div>
+<!--</div>-->
+</div>
+{%endblock%}

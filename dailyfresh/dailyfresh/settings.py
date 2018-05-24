@@ -39,7 +39,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'user',
     'tinymce',
-    'goods'
+    'goods',
+    'haystack',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -139,3 +140,13 @@ TINYMCE_DEFAULT_CONFIG = {
     'width': 600,
     'height': 400,
 }
+# 配置全文索引引擎
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'goods.whoosh_cn_backend.WhooshEngine',
+        'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
+    },
+}
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 18
+# 自动生成索引
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'

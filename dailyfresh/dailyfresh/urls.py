@@ -38,4 +38,5 @@ urlpatterns = [
     url(r'user/', include(user_patterns, namespace='user')),
     #  主页，即商品模块
     url(r'^', include(goods_patterns, namespace='goods')),
+    url(r'^search/$', include('haystack.urls')),
 ]

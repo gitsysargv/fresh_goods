@@ -1,10 +1,15 @@
+import logging
+from django.core import signing
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.cache import cache_page
+# from django.views.decorators.http import condition
 from django.views.generic import ListView
 
 from .models import GoodsType, Goods
 
 
+@cache_page(60 * 60 * 3)  # 缓存3个小时
 def home_page(request):
     '''主页
     显示商品列表: 目前共有6种类型
@@ -65,6 +70,17 @@ def home_page(request):
     return render(request, template_name, context)
 
 
+# def goods_list_etag(request, tid, sort, page_index):
+#     goods = Goods.objects.only('id').last()
+#     goods_id = 0
+#     if goods is not None:
+#         goods_id = goods.id
+#     etag = str(tid) + str(sort) + str(page_index) + str(goods_id)
+#     return etag
+#
+#
+# @condition(etag_func=goods_list_etag)
+@cache_page(60 * 60 * 1)  # 缓存1个小时
 def goods_list(request, tid, sort, page_index):
     '''根据商品类型返回商品列表
     tid: 商品类型ID
@@ -106,9 +122,9 @@ def goods_list(request, tid, sort, page_index):
             page_range = [1, 2, 3, 4, 5]
             has_head = False
         elif 3 < content.number < paginator.num_pages - 2:
-            page_range = range(content.number - 2, content.number + 2+1)
+            page_range = range(content.number - 2, content.number + 2 + 1)
         else:
-            page_range = range(paginator.num_pages - 4, paginator.num_pages+1)
+            page_range = range(paginator.num_pages - 4, paginator.num_pages + 1)
             has_foot = False
     else:  # 如果最大页面小于5，则分页到最大页为止
         page_range = paginator.page_range
@@ -127,5 +143,31 @@ def goods_list(request, tid, sort, page_index):
 
 def goods_detail(request, gid):
     goods = get_object_or_404(Goods, pk=gid)
-    news = goods.type.goods_set.order_by('-id')[0:2]
-    return render(request, 'goods/detail.html', locals())
+    news = goods.type.goods_set.only('id', 'title', 'pic', 'price').order_by('-id')[0:2]
+    '''保存几个个gid到COOKIES中，最大5位，列表类型：[1,2,3,4,5]'''
+    signing_str = request.COOKIES.get('gid_list')
+    if signing_str is not None:
+        try:
+            gid_list = signing.loads(signing_str)
+        except signing.BadSignature as e:
+            logger = logging.getLogger('django.cookies')
+            logger.warning('cookies中获取gid错误：{}, USER[{}], REMOTE_ADDR[{}]'.format(
+                e,
+                request.user,
+                request.META.get('REMOTE_ADDR'),
+            ))
+            gid_list = []
+    else:
+        gid_list = []
+
+    if len(gid_list) == 5:
+        # 当id已经存在就什么都不做
+        if gid not in gid_list:
+            gid_list.insert(0, gid)
+            gid_list.pop()
+    else:
+        if gid not in gid_list:
+            gid_list.insert(0, gid)
+    response = render(request, 'goods/detail.html', locals())
+    response.set_cookie('gid_list', signing.dumps(gid_list))
+    return response

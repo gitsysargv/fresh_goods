@@ -4,6 +4,7 @@ import logging
 
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
+from django.core import signing
 from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, redirect
 from django.shortcuts import render_to_response
@@ -15,6 +16,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import last_modified
 from django.views.generic import FormView, TemplateView, DetailView
 
+from goods.models import Goods
 from .models import User, RecipientsAddress
 from .form import UserModelRegisterForm, UserLoginForm
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
@@ -207,11 +209,11 @@ class UserLogin(FormView):
         return response
 
 
-# def login_datetime(request):
-#     return timezone.datetime(2018, 5, 11)
-#
-#
-# @last_modified(login_datetime)
+def login_datetime(request):
+    return timezone.datetime(2018, 5, 20)  # 登陆页面最后修改时间
+
+
+@last_modified(login_datetime)
 @never_cache
 def login(request):
     template_name = 'user/login.html'
@@ -275,6 +277,40 @@ class UserDetail(TemplateView):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        signing_str = self.request.COOKIES.get('gid_list')
+        if signing_str is not None:
+            try:
+                gid_list = signing.loads(signing_str)
+            except signing.BadSignature as e:
+                logger = logging.getLogger('django.cookies')
+                logger.warning('cookies中获取gid错误：{}, USER[{}], REMOTE_ADDR[{}]'.format(
+                    e,
+                    self.request.user,
+                    self.request.META.get('REMOTE_ADDR'),
+                ))
+                gid_list = []
+        else:
+            gid_list = []
+
+        recently_viewed = []
+        if gid_list is not []:
+            for gid in gid_list:
+                try:
+                    goods = Goods.objects.get(pk=gid)
+                except Goods.DoesNotExist:
+                    goods = None
+                if goods is not None:
+                    recently_viewed.append(goods)
+
+        context['recently_viewed'] = recently_viewed
+        return context
+
+    # def get(self, request, *args, **kwargs):
+    #     self.cookies = request.COOKIES
+    #     return super().get(request, *args, **kwargs)
 
 
 @login_required()

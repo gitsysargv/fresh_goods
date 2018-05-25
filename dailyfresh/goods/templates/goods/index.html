@@ -77,7 +77,7 @@
 			<ul class="goods_list fl">
 				{% for goods in fruit_new %}
 				<li>
-					<h4><a href="{{ goods.get_absolute_url }}">{{ goods.title }}</a></h4>
+					<h4><a href="{{ goods.get_absolute_url }}">{{ goods.title|truncatechars:18 }}</a></h4>
 					<a href="{{ goods.get_absolute_url }}"><img src="/static/{{ goods.pic }}"></a>
 					<div class="prize">¥ {{ goods.price }}</div>
 				</li>
@@ -103,7 +103,7 @@
 			<ul class="goods_list fl">
 				{% for goods in seafood_new %}
 				<li>
-					<h4><a href="{{ goods.get_absolute_url }}">{{ goods.title }}</a></h4>
+					<h4><a href="{{ goods.get_absolute_url }}">{{ goods.title|truncatechars:18 }}</a></h4>
 					<a href="{{ goods.get_absolute_url }}"><img src="/static/{{ goods.pic }}"></a>
 					<div class="prize">¥ {{ goods.price }}</div>
 				</li>
@@ -130,7 +130,7 @@
 
 				{% for goods in meat_new %}
 				<li>
-					<h4><a href="{{ goods.get_absolute_url }}">{{ goods.title }}</a></h4>
+					<h4><a href="{{ goods.get_absolute_url }}">{{ goods.title|truncatechars:18 }}</a></h4>
 					<a href="{{ goods.get_absolute_url }}"><img src="/static/{{ goods.pic }}"></a>
 					<div class="prize">¥ {{ goods.price }}</div>
 				</li>
@@ -157,7 +157,7 @@
 			<ul class="goods_list fl">
 				{% for goods in egg_new %}
 				<li>
-					<h4><a href="{{ goods.get_absolute_url }}">{{ goods.title }}</a></h4>
+					<h4><a href="{{ goods.get_absolute_url }}">{{ goods.title|truncatechars:18 }}</a></h4>
 					<a href="{{ goods.get_absolute_url }}"><img src="/static/{{ goods.pic }}"></a>
 					<div class="prize">¥ {{ goods.price }}</div>
 				</li>
@@ -184,7 +184,7 @@
 			<ul class="goods_list fl">
 				{% for goods in vegetable_new %}
 				<li>
-					<h4><a href="{{ goods.get_absolute_url }}">{{ goods.title }}</a></h4>
+					<h4><a href="{{ goods.get_absolute_url }}">{{ goods.title|truncatechars:18 }}</a></h4>
 					<a href="{{ goods.get_absolute_url }}"><img src="/static/{{ goods.pic }}"></a>
 					<div class="prize">¥ {{ goods.price }}</div>
 				</li>
@@ -211,7 +211,7 @@
 			<ul class="goods_list fl">
 				{% for goods in quick_frozen_food_new %}
 				<li>
-					<h4><a href="{{ goods.get_absolute_url }}">{{ goods.title }}</a></h4>
+					<h4><a href="{{ goods.get_absolute_url }}">{{ goods.title|truncatechars:18 }}</a></h4>
 					<a href="{{ goods.get_absolute_url }}"><img src="/static/{{ goods.pic }}"></a>
 					<div class="prize">¥ {{ goods.price }}</div>
 				</li>

@@ -150,3 +150,9 @@ HAYSTACK_CONNECTIONS = {
 HAYSTACK_SEARCH_RESULTS_PER_PAGE = 18
 # 自动生成索引
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    }
+}
+

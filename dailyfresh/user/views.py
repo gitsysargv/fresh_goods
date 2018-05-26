@@ -210,7 +210,7 @@ class UserLogin(FormView):
 
 
 def login_datetime(request):
-    return timezone.datetime(2018, 5, 20)  # 登陆页面最后修改时间
+    return timezone.datetime(2018, 5, 26, 16, 36)  # 登陆页面最后修改时间
 
 
 @last_modified(login_datetime)

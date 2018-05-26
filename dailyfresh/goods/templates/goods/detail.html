@@ -8,6 +8,7 @@
 		<div class="goods_detail_pic fl"><img src="/static/{{ goods.pic }}"></div>
 
 		<div class="goods_detail_list fr">
+			<input type="hidden" id="gid" value="{{ goods.id }}">
 			<h3>{{ goods.title }}</h3>
 			<p>{{ goods.intro }}</p>
 			<div class="prize_bar">
@@ -80,18 +81,25 @@
 
 		// 加入购物车js
 		$('#add_cart').click(function(){
-			$(".add_jump").stop().animate({
+		    var gid = $('#gid').val();
+		    var count = $('.num_show').val();
+		    $.get("/cart/add/", {'gid': gid, 'count': count}, function (data) {
+				if (data.isok == 1){
+				    $(".add_jump").stop().animate({
 				'left': $to_y+7,
 				'top': $to_x+7},
-				"fast", function() {
-					$(".add_jump").fadeOut('fast',function(){
-					    var count = parseInt($('#show_count').html());
-					    count += 1;
-						$('#show_count').html(count);
-						$(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'});
-					});
+						"fast", function() {
+                    $(".add_jump").fadeOut('fast', function () {
+                        var count = parseInt($('#show_count').html());
+                        count += 1;
+                        $('#show_count').html(count);
+                        $(".add_jump").css({'left': $add_y + 80, 'top': $add_x + 10, 'display': 'block'});
+                    });
 
 			});
+				}
+            });
+
 		})
         });
 

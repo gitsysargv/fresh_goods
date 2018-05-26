@@ -15,8 +15,16 @@
         }
         </style>
 {% load highlight %}
+            {% comment %}
+            {% load more_like_this %}
+            {% with item=page.0 %}
+            {% more_like_this item.object as related_content limit 2 %}
+            {%for t in related_content %}
+            {{ t.object.title }}
+            {%endfor%}
+            {% endwith %}
+            {% endcomment %}
         {% for i in page %}
-
         <li>
             <a href="{{ i.object.get_absolute_url }}"><img src="/static/{{ i.object.pic }}"></a>
             <h4><a href="{{ i.object.get_absolute_url }}">{% highlight i.object.title with query %}</a></h4>

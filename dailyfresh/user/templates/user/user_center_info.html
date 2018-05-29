@@ -23,8 +23,8 @@
             <h3 class="common_title2">基本信息</h3>
             <ul class="user_info_list">
                 <li><span>用户名：</span>{{ user.username }}</li>
-                <li><span>联系方式：</span>{{ user.mobile_number }}</li>
-                <li><span>联系地址：</span>{{ user.address }}</li>
+                <li><span>联系方式：</span>{{ user.mobile_number|default_if_none:"未填" }}</li>
+                <li><span>联系地址：</span>{{ user.address|default_if_none:"未填" }}</li>
             </ul>
         </div>
 

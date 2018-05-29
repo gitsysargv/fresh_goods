@@ -79,25 +79,33 @@
 
 		$(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'});
 
-		// 加入购物车js
+		// 加入购物车js 如未登录，就跳转到登录页
 		$('#add_cart').click(function(){
 		    var gid = $('#gid').val();
 		    var count = $('.num_show').val();
+
 		    $.get("/cart/add/", {'gid': gid, 'count': count}, function (data) {
-				if (data.isok == 1){
+				// alert(data.login); undefined
+		        if(data.login == 0){
+		            alert('还未登陆，请先登陆');
+		            window.location.href = "/user/login/";
+				}
+				else {
+		            if (data.isok == 1){
+		                $(".add_jump").css({'left': $add_y + 80, 'top': $add_x + 10, 'display': 'block'});
 				    $(".add_jump").stop().animate({
 				'left': $to_y+7,
 				'top': $to_x+7},
 						"fast", function() {
                     $(".add_jump").fadeOut('fast', function () {
-                        var count = parseInt($('#show_count').html());
-                        count += 1;
-                        $('#show_count').html(count);
-                        $(".add_jump").css({'left': $add_y + 80, 'top': $add_x + 10, 'display': 'block'});
+
+                        $('#show_count').html(data.cart_count);
                     });
 
 			});
 				}
+				}
+
             });
 
 		})

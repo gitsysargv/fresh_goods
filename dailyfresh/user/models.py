@@ -17,6 +17,9 @@ class User(AbstractUser):
                                      )])
     address = models.CharField('联系地址', max_length=100, null=True, blank=True)
 
+    def get_default_recipient_address(self):
+        return self.recipientsaddress_set.all().first()
+
     class Meta(AbstractUser.Meta):
         swappable = 'AUTH_USER_MODEL'
 

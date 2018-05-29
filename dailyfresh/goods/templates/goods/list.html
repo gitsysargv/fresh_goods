@@ -6,11 +6,35 @@
 {# ajax添加购物车，成功后跳转到详细页 #}
 <script>
 	$(function () {
+//	    var $add_x = $('.add_goods').offset().top;
+//		var $add_y = $('.add_goods').offset().left;
+
+		var $to_x = $('#show_count').offset().top;
+		var $to_y = $('#show_count').offset().left;
+
+//		$(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'});
+
 		$('.add_goods').click(function () {
-	    var gid = $('#gid').val();
+		    var $add_x = $(this).offset().top;
+		    var $add_y = $(this).offset().left;
+
+		var gid = $(this).parent().siblings('.gid').val();
+
+//	    var gid = $('#gid').val();
 		$.get("/cart/add/", {'gid': gid, 'count': 1}, function (data) {
 			if (data.isok == 1){
-			     window.location.href = '/detail/' + gid + '/';
+
+			    $(".add_jump").css({'left': $add_y + 80, 'top': $add_x + 10, 'display': 'block'});
+				$(".add_jump").stop().animate({
+				'left': $to_y+7,
+				'top': $to_x+7},
+						"fast", function() {
+                    $(".add_jump").fadeOut('fast', function () {
+                        $('#show_count').html(data.cart_count);
+                    });
+
+			});
+//			     window.location.href = '/detail/' + gid + '/';
 			}
         })
     });
@@ -31,7 +55,7 @@
 			<ul class="goods_type_list clearfix">
 				{% for goods in page %}
 				<li>
-					<input type="hidden" id="gid" value="{{ goods.id }}">
+					<input type="hidden" class="gid" value="{{ goods.id }}">
 					<a href="{{ goods.get_absolute_url }}"><img src="/static/{{ goods.pic }}"></a>
 					<h4><a href="{{ goods.get_absolute_url }}">{{ goods.title }}</a></h4>
 					<div class="operate">
@@ -77,4 +101,5 @@
 				{%endif%}
 			</div>
 		</div>
+		<div class="add_jump"></div>
 	{%endblock%}

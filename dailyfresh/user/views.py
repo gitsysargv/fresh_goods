@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login as auth_login, logout as aut
 from django.contrib.auth.decorators import login_required
 from django.core import signing
 from django.http import HttpResponse, Http404, JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.shortcuts import render_to_response
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.template.response import TemplateResponse
@@ -241,7 +241,7 @@ def login(request):
                     return response
             else:
                 form.add_error(None, '用户名或密码不正确')
-        #  页面记住用户名功能，把用户名存在cookie里
+        # 页面记住用户名功能，把用户名存在cookie里
         response = TemplateResponse(request, template_name, {})
 
         if request.POST.get('mark_name') == '1':
@@ -308,9 +308,9 @@ class UserDetail(TemplateView):
         context['recently_viewed'] = recently_viewed
         return context
 
-    # def get(self, request, *args, **kwargs):
-    #     self.cookies = request.COOKIES
-    #     return super().get(request, *args, **kwargs)
+        # def get(self, request, *args, **kwargs):
+        #     self.cookies = request.COOKIES
+        #     return super().get(request, *args, **kwargs)
 
 
 @login_required()
@@ -325,3 +325,18 @@ def edit_recipients_address(request):
         )
         recipients_address.save()
     return render(request, 'user/user_center_site.html')
+
+
+# 删除用户关联地址
+@login_required()
+def delete_address(request, uid, recid):
+    uid = int(uid)
+    recid = int(recid)
+    address = get_object_or_404(RecipientsAddress, pk=recid)
+    if address.user_id != uid:
+        logger = logging.getLogger('myproject.debug')
+        logger.debug('用户id和捕获参数uid不一致！')
+        logger.debug('{}[{}] != {}[{}]'.format(type(address.user_id), address.user_id, type(uid), uid))
+        raise Http404
+    address.delete()
+    return redirect(reverse('user:user_center_site'))

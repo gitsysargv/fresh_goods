@@ -8,3 +8,6 @@ class Cart(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     goods = models.ForeignKey(Goods)
     count = models.IntegerField()
+
+    def get_total(self):
+        return round(self.goods.price*self.count, 2)

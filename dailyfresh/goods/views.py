@@ -169,5 +169,5 @@ def goods_detail(request, gid):
         if gid not in gid_list:
             gid_list.insert(0, gid)
     response = render(request, 'goods/detail.html', locals())
-    response.set_cookie('gid_list', signing.dumps(gid_list))
+    response.set_cookie('gid_list', signing.dumps(gid_list), max_age=60*60*24*15)
     return response

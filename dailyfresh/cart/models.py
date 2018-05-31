@@ -10,4 +10,5 @@ class Cart(models.Model):
     count = models.IntegerField()
 
     def get_total(self):
+        '''获取小计'''
         return round(self.goods.price*self.count, 2)

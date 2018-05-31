@@ -38,6 +38,9 @@ goods_patterns = [
 
 order_patterns = [
     url(r'^checked_cart_list/$', order_views.checked_cart_list_view, name='checked_cart_list'),
+    url(r'^handle/$', order_views.handle_view, name='handle'),
+    url(r'^user_center_order/(?:(\d+)/)?$', order_views.user_center_order, name='user_center_order'),
+    url(r'^order-error-meg/$', order_views.OrderErrorView.as_view(), name='order-error'),
 ]
 
 urlpatterns = [

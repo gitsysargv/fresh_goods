@@ -2,7 +2,9 @@ import logging
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.views.generic import TemplateView
 
+from .decorator import is_has_carts
 from .models import Cart
 
 
@@ -49,6 +51,7 @@ def add(request):
     return JsonResponse({'isok': 1, 'cart_count': cart_count})
 
 
+@is_has_carts
 @login_required()
 def cart_list_view(request):
     cart_list = request.user.cart_set.all()
@@ -108,3 +111,8 @@ def set_cart(request):
     cart.count = count
     cart.save()
     return JsonResponse({'isok': 1, 'count': count})
+
+
+class NoCartView(TemplateView):
+    '''无购物车时的显示视图'''
+    template_name = 'cart/no_cart.html'

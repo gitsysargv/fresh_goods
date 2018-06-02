@@ -20,7 +20,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'gl*wa(c$h@3436q)+^3326%yp^+$(1u9(s$tua^14+p$$q*ga0'
+with open('/home/chaiming/djcode/site/demo.ttfresh.com/secret-key-password') as f:
+        SECRET_KEY = f.read().strip()
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -79,13 +81,14 @@ WSGI_APPLICATION = 'dailyfresh.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
+with open('/home/chaiming/djcode/site/demo.ttfresh.com/mysql-password') as f:
+        MYSQL_PASSWORD = f.read().strip()
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dailyfresh',
         'USER': 'root',
-        'PASSWORD': 'mysql',
+        'PASSWORD': MYSQL_PASSWORD,
         'HOST': '127.0.0.1',
         'POST': '3306',
     }
@@ -165,13 +168,6 @@ LOGGING = {
             'filename': os.path.join(BASE_DIR, 'django.client_error.log'),
             'encoding': 'utf-8',
             'formatter': 'verbose',
-        },
-        'request': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'django.request.log'),
-            'encoding': 'utf-8',
-            'formatter': 'request',
         },
         'mail_admins': {
             'level': 'ERROR',
@@ -257,6 +253,8 @@ EMAIL_PORT = 25
 #发送邮件的邮箱
 EMAIL_HOST_USER = 'itcast88@163.com'
 #在邮箱中设置的客户端授权密码
-EMAIL_HOST_PASSWORD = 'python808'
+with open('/home/chaiming/djcode/site/demo.ttfresh.com/email-password') as f:
+        EMAIL_HOST_PASSWORD = f.read().strip()
+ 
 #收件人看到的发件人
 EMAIL_FROM = 'dailyfresh错误邮件'

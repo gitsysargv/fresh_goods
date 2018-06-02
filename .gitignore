@@ -104,3 +104,4 @@ migrations/
 gunicorn/
 *.ini
 *.pid
+whoosh_index/

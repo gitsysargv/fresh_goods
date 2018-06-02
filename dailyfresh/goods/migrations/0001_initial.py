@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Goods',
             fields=[
-                ('id', models.AutoField(serialize=False, verbose_name='ID', auto_created=True, primary_key=True)),
+                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
                 ('title', models.CharField(max_length=20, verbose_name='商品名称')),
                 ('pic', models.ImageField(upload_to='images/goods/', verbose_name='图片')),
                 ('price', models.DecimalField(max_digits=5, decimal_places=2, verbose_name='单价')),
@@ -30,15 +30,15 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='Type',
+            name='GoodsType',
             fields=[
-                ('id', models.AutoField(serialize=False, verbose_name='ID', auto_created=True, primary_key=True)),
+                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
                 ('title', models.CharField(max_length=20, verbose_name='商品类型')),
             ],
         ),
         migrations.AddField(
             model_name='goods',
             name='type',
-            field=models.ForeignKey(to='goods.Type'),
+            field=models.ForeignKey(to='goods.GoodsType'),
         ),
     ]

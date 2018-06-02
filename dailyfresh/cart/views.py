@@ -51,8 +51,9 @@ def add(request):
     return JsonResponse({'isok': 1, 'cart_count': cart_count})
 
 
-@is_has_carts
+
 @login_required()
+@is_has_carts
 def cart_list_view(request):
     cart_list = request.user.cart_set.all()
     return render(request, 'cart/cart.html', locals())
